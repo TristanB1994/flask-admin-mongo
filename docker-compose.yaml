@@ -7,7 +7,7 @@ services:
       - 5000:5000
     volumes:
       - ${PWD}/api:/opt
-    command: ['gunicorn', '--timeout=30', '-b', '0.0.0.0:5000', 'app:app', '--log-level=debug', '--capture-output', '--reload']
+    command: ['gunicorn', '--timeout=30', '-b', '0.0.0.0:5000', 'app:create_app()', '--log-level=debug', '--capture-output', '--reload']
   
   db:
     build: ${PWD}/mongo
@@ -16,3 +16,5 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
       - MONGO_INITDB_DATABASE=registry
+    volumes:
+      - ${PWD}/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
